@@ -3,6 +3,7 @@ import Card from "../components/Graphs/KPICards";
 import Button from "../components/UI/Button";
 import { KPICards } from "../components/Graphs/KPICards";
 import { VotesBarChart } from "../components/Graphs/VoteBarChart";
+import { RegionMap } from "../components/Graphs/RegionMap";
 
 const Dashboard: React.FC = () => {
   return (
@@ -30,7 +31,10 @@ const Dashboard: React.FC = () => {
           <h2 className="text-2xl font-semibold text-foreground mb-6">
             Analyse des Résultats
           </h2>
-          <VotesBarChart />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <VotesBarChart />
+            <RegionMap />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -56,7 +56,9 @@ export function KPICards() {
         const stats: ElectionStats = await electionService.fetchElectionData();
 
         console.log("KPICards: Received stats:", stats);
-        setDataSource("API officielle");
+        setDataSource(
+          stats.dataSource === "API" ? "API officielle" : "Données simulées"
+        );
 
         setKpis([
           {
@@ -137,14 +139,14 @@ export function KPICards() {
 
   return (
     <div className="space-y-4">
-      {usingMockData && (
+      {dataSource.includes("simulées") && (
         <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 text-sm text-yellow-800 dark:text-yellow-200">
           ⚠️ {dataSource} - Les APIs officielles sont temporairement
           indisponibles
         </div>
       )}
 
-      {!usingMockData && (
+      {dataSource.includes("API") && (
         <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3 text-sm text-green-800 dark:text-green-200">
           ✅ {dataSource} - Données officielles en temps réel
         </div>

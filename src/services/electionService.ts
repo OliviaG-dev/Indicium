@@ -19,6 +19,7 @@ export interface ElectionStats {
   abstention: number;
   blancsNuls: number;
   totalVotants: number;
+  dataSource: "API" | "Simulated";
 }
 
 class ElectionService {
@@ -35,10 +36,10 @@ class ElectionService {
   ];
 
   async fetchElectionData(): Promise<ElectionStats> {
-    // Essayer chaque URL jusqu'à ce qu'une fonctionne
+    // Essayer d'abord l'API, puis les données simulées en cas d'erreur
     for (const url of this.API_URLS) {
       try {
-        console.log("Trying URL:", url);
+        console.log("🔄 Tentative d'accès à l'API:", url);
 
         const response = await fetch(url, {
           method: "GET",
@@ -55,38 +56,39 @@ class ElectionService {
         }
 
         const text = await response.text();
-        console.log(
-          "Raw data received from",
-          url,
-          ":",
-          text.substring(0, 200) + "..."
-        );
+        console.log("✅ Données reçues de l'API:", url);
 
         // Vérifier si c'est du JSON (réponse GitHub API)
         if (text.includes('"content"') && text.includes('"encoding"')) {
-          console.log("Received GitHub API response, extracting content...");
+          console.log(
+            "📄 Réponse GitHub API détectée, extraction du contenu..."
+          );
           const jsonData = JSON.parse(text);
           if (jsonData.content && jsonData.encoding === "base64") {
             const decodedContent = atob(jsonData.content);
-            return this.parseElectionData(decodedContent);
+            const result = this.parseElectionData(decodedContent);
+            return { ...result, dataSource: "API" as const };
           }
         }
 
         // Essayer de parser comme CSV
         try {
-          return this.parseElectionData(text);
+          const result = this.parseElectionData(text);
+          return { ...result, dataSource: "API" as const };
         } catch {
-          console.log("Failed to parse as CSV, trying other formats...");
+          console.log("❌ Échec du parsing CSV, tentative d'autres formats...");
           throw new Error("Could not parse data as CSV");
         }
       } catch (error) {
-        console.error(`Error with URL ${url}:`, error);
+        console.error(`❌ Erreur avec l'URL ${url}:`, error);
         continue; // Essayer l'URL suivante
       }
     }
 
-    // Si toutes les URLs ont échoué, utiliser des données simulées réalistes
-    console.log("All APIs failed, using realistic mock data");
+    // Si toutes les APIs ont échoué, utiliser des données simulées réalistes
+    console.log(
+      "⚠️ Toutes les APIs ont échoué, utilisation des données simulées"
+    );
     return this.getRealisticMockData();
   }
 
@@ -137,6 +139,7 @@ class ElectionService {
         abstention,
         blancsNuls,
         totalVotants: votants,
+        dataSource: "API" as const,
       };
     } catch (error) {
       console.error("Error parsing election data:", error);
@@ -164,6 +167,7 @@ class ElectionService {
       abstention: Math.round(baseStats.abstention * randomFactor * 10) / 10,
       blancsNuls: Math.round(baseStats.blancsNuls * randomFactor * 10) / 10,
       totalVotants: Math.round(baseStats.totalVotants * randomFactor),
+      dataSource: "Simulated" as const,
     };
   }
 
@@ -174,6 +178,7 @@ class ElectionService {
       abstention: 32.9,
       blancsNuls: 2.8,
       totalVotants: 35000000,
+      dataSource: "Simulated" as const,
     };
   }
 
@@ -184,6 +189,7 @@ class ElectionService {
       abstention: 27.7,
       blancsNuls: 3.1,
       totalVotants: 38000000,
+      dataSource: "Simulated" as const,
     };
   }
 }
