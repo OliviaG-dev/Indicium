@@ -1,8 +1,8 @@
 import React from "react";
-import Card from "../components/UI/KPICards";
+import Card from "../components/Graphs/KPICards";
 import Button from "../components/UI/Button";
-import { KPICards } from "../components/UI/KPICards";
-import { VotesBarChart } from "../components/UI/VoteBarChart";
+import { KPICards } from "../components/Graphs/KPICards";
+import { VotesBarChart } from "../components/Graphs/VoteBarChart";
 
 const Dashboard: React.FC = () => {
   return (
