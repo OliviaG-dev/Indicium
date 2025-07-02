@@ -1,6 +1,8 @@
 import React from "react";
-import Card from "../components/UI/Card";
+import Card from "../components/UI/KPICards";
 import Button from "../components/UI/Button";
+import { KPICards } from "../components/UI/KPICards";
+import { VotesBarChart } from "../components/UI/VoteBarChart";
 
 const Dashboard: React.FC = () => {
   return (
@@ -13,6 +15,22 @@ const Dashboard: React.FC = () => {
           <p className="text-lg text-muted-foreground">
             Analysez les données électorales et politiques en temps réel
           </p>
+        </div>
+
+        {/* Section KPIs */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-semibold text-foreground mb-6">
+            Indicateurs Clés
+          </h2>
+          <KPICards />
+        </div>
+
+        {/* Section Graphiques */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-semibold text-foreground mb-6">
+            Analyse des Résultats
+          </h2>
+          <VotesBarChart />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
