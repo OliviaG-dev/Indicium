@@ -31,6 +31,9 @@ interface GeographiesProps {
 export function RegionMap() {
   const [regions, setRegions] = useState<Record<string, RegionData>>({});
   const [tooltip, setTooltip] = useState("");
+  const [tooltipPosition, setTooltipPosition] = useState<"top" | "bottom">(
+    "bottom"
+  );
   const [loading, setLoading] = useState(true);
   const [dataSource, setDataSource] = useState<string>("");
 
@@ -222,6 +225,32 @@ export function RegionMap() {
                     stroke="#ffffff"
                     strokeWidth={1}
                     onMouseEnter={() => {
+                      // Déterminer la position du tooltip selon la région
+                      const northernRegions = [
+                        "Hauts-de-France",
+                        "Grand Est",
+                        "Bourgogne-Franche-Comté",
+                        "Normandie",
+                        "Île-de-France",
+                        "Centre-Val de Loire",
+                      ];
+                      const southernRegions = [
+                        "Nouvelle-Aquitaine",
+                        "Occitanie",
+                        "Provence-Alpes-Côte d'Azur",
+                        "Auvergne-Rhône-Alpes",
+                        "Corse",
+                      ];
+
+                      if (northernRegions.includes(regionName)) {
+                        setTooltipPosition("bottom");
+                      } else if (southernRegions.includes(regionName)) {
+                        setTooltipPosition("top");
+                      } else {
+                        // Régions du centre, utiliser le bas par défaut
+                        setTooltipPosition("bottom");
+                      }
+
                       if (data) {
                         setTooltip(
                           `${regionName}\n${
@@ -270,7 +299,7 @@ export function RegionMap() {
             className="absolute bg-card border border-border rounded-xl px-4 py-3 text-sm shadow-xl z-10 pointer-events-none backdrop-blur-sm"
             style={{
               left: "50%",
-              top: "10px",
+              [tooltipPosition]: "20px",
               transform: "translateX(-50%)",
               whiteSpace: "pre-line",
               maxWidth: "300px",
