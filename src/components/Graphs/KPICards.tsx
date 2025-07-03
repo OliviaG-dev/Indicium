@@ -42,14 +42,12 @@ const Card: React.FC<CardProps> = ({
 export function KPICards() {
   const [kpis, setKpis] = useState<KPI[] | null>(null);
   const [loading, setLoading] = useState(true);
-  const [usingMockData, setUsingMockData] = useState(false);
   const [dataSource, setDataSource] = useState<string>("");
 
   useEffect(() => {
     async function fetchElectionData() {
       try {
         setLoading(true);
-        setUsingMockData(false);
         setDataSource("");
 
         console.log("KPICards: Starting to fetch election data...");
@@ -90,7 +88,6 @@ export function KPICards() {
 
         // Fallback vers les données récentes (plus réalistes)
         const mockStats = electionService.getRecentMockData();
-        setUsingMockData(true);
         setDataSource("Données récentes (simulées)");
 
         setKpis([

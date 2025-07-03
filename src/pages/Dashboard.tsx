@@ -4,6 +4,7 @@ import Button from "../components/UI/Button";
 import { KPICards } from "../components/Graphs/KPICards";
 import { VotesBarChart } from "../components/Graphs/VoteBarChart";
 import { RegionMap } from "../components/Graphs/RegionMap";
+import { ParticipationLineChart } from "../components/Graphs/ParticipationLineChart";
 
 const Dashboard: React.FC = () => {
   return (
@@ -31,9 +32,12 @@ const Dashboard: React.FC = () => {
           <h2 className="text-2xl font-semibold text-foreground mb-6">
             Analyse des Résultats
           </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <VotesBarChart />
             <RegionMap />
+          </div>
+          <div className="grid grid-cols-1 gap-6">
+            <ParticipationLineChart />
           </div>
         </div>
 
