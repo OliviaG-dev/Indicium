@@ -99,7 +99,7 @@ export function ParticipationLineChart() {
             <XAxis
               dataKey="year"
               tick={{
-                fill: "#e0e7ef",
+                fill: "#475569",
                 fontFamily: "Inter",
                 fontWeight: 500,
                 fontSize: 15,
@@ -111,7 +111,7 @@ export function ParticipationLineChart() {
               domain={[60, 90]}
               tickFormatter={(value) => `${value}%`}
               tick={{
-                fill: "#e0e7ef",
+                fill: "#475569",
                 fontFamily: "Inter",
                 fontWeight: 500,
                 fontSize: 15,
@@ -149,7 +149,7 @@ export function ParticipationLineChart() {
             />
             <Legend
               wrapperStyle={{
-                color: "#e0e7ef",
+                color: "#475569",
                 fontFamily: "Inter",
                 fontWeight: 600,
                 fontSize: 14,

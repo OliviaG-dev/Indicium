@@ -182,13 +182,13 @@ export function VotesBarChart() {
           <BarChart
             data={data}
             barCategoryGap={32}
-            margin={{ top: 16, right: 24, left: 48, bottom: 32 }}
+            margin={{ top: 16, right: 32, left: 16, bottom: 32 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
             <XAxis
               dataKey="name"
               tick={{
-                fill: "#e0e7ef",
+                fill: "#475569",
                 fontFamily: "Inter",
                 fontWeight: 500,
                 fontSize: 15,
@@ -198,7 +198,7 @@ export function VotesBarChart() {
             />
             <YAxis
               tick={{
-                fill: "#e0e7ef",
+                fill: "#475569",
                 fontFamily: "Inter",
                 fontWeight: 500,
                 fontSize: 11,
