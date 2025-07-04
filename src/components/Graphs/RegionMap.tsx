@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { MapPin } from "lucide-react";
 import electionService from "../../services/electionService";
+import { useFiltersStore } from "../../store/filterStore";
 
 const geoUrl =
   "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/regions-version-simplifiee.geojson";
@@ -36,6 +37,7 @@ export function RegionMap() {
   );
   const [loading, setLoading] = useState(true);
   const [dataSource, setDataSource] = useState<string>("");
+  const { year, round } = useFiltersStore();
 
   useEffect(() => {
     async function fetchData() {
@@ -43,7 +45,10 @@ export function RegionMap() {
         setLoading(true);
 
         // Utiliser le service d'élection pour obtenir les données nationales
-        const nationalStats = await electionService.fetchElectionData();
+        const nationalStats = await electionService.fetchElectionData(
+          year,
+          round
+        );
         setDataSource(
           nationalStats.dataSource === "API"
             ? "API officielle"
@@ -153,7 +158,7 @@ export function RegionMap() {
     }
 
     fetchData();
-  }, []);
+  }, [year, round]);
 
   // Fonction de couleur simple
   const getColor = (ratio: number): string => {
@@ -359,7 +364,7 @@ export function RegionMap() {
             className="inline-block w-4 h-4 rounded"
             style={{ background: "#ef4444" }}
           ></span>
-          <span className="text-sm text-card-foreground font-medium">
+          <span className="text-sm text-muted-foreground font-medium">
             Le Pen
           </span>
         </div>
@@ -368,7 +373,7 @@ export function RegionMap() {
             className="inline-block w-4 h-4 rounded"
             style={{ background: "#3b82f6" }}
           ></span>
-          <span className="text-sm text-card-foreground font-medium">
+          <span className="text-sm text-muted-foreground font-medium">
             Macron
           </span>
         </div>

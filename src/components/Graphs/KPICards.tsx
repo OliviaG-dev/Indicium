@@ -4,6 +4,7 @@ import electionService, {
   type KPI,
   type ElectionStats,
 } from "../../services/electionService";
+import { useFiltersStore } from "../../store/filterStore";
 
 interface CardProps {
   children: React.ReactNode;
@@ -43,6 +44,7 @@ export function KPICards() {
   const [kpis, setKpis] = useState<KPI[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [dataSource, setDataSource] = useState<string>("");
+  const { year, round } = useFiltersStore();
 
   useEffect(() => {
     async function fetchElectionData() {
@@ -51,7 +53,10 @@ export function KPICards() {
         setDataSource("");
 
         console.log("KPICards: Starting to fetch election data...");
-        const stats: ElectionStats = await electionService.fetchElectionData();
+        const stats: ElectionStats = await electionService.fetchElectionData(
+          year,
+          round
+        );
 
         console.log("KPICards: Received stats:", stats);
         setDataSource(
@@ -87,7 +92,7 @@ export function KPICards() {
         );
 
         // Fallback vers les données récentes (plus réalistes)
-        const mockStats = electionService.getRecentMockData();
+        const mockStats = electionService.getRealisticMockData(year, round);
         setDataSource("Données récentes (simulées)");
 
         setKpis([
@@ -118,7 +123,7 @@ export function KPICards() {
     }
 
     fetchElectionData();
-  }, []);
+  }, [year, round]);
 
   if (loading) {
     return (

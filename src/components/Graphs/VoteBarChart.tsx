@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { BarChart3 } from "lucide-react";
 import electionService from "../../services/electionService";
+import { useFiltersStore } from "../../store/filterStore";
 
 type CandidateResult = {
   name: string;
@@ -27,7 +28,7 @@ function CustomLegend() {
           className="inline-block w-3 h-3 rounded-full"
           style={{ background: "#6366f1" }}
         ></span>
-        <span className="text-sm text-card-foreground font-medium">
+        <span className="text-sm text-muted-foreground font-medium">
           Nombre de voix
         </span>
       </div>
@@ -36,7 +37,7 @@ function CustomLegend() {
           className="inline-block w-3 h-3 rounded-full"
           style={{ background: "#a21caf" }}
         ></span>
-        <span className="text-sm text-card-foreground font-medium">
+        <span className="text-sm text-muted-foreground font-medium">
           Pourcentage des exprimés
         </span>
       </div>
@@ -48,6 +49,7 @@ export function VotesBarChart() {
   const [data, setData] = useState<CandidateResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [dataSource, setDataSource] = useState<string>("");
+  const { year, round } = useFiltersStore();
 
   useEffect(() => {
     async function fetchVotes() {
@@ -55,7 +57,7 @@ export function VotesBarChart() {
         setLoading(true);
 
         // Utiliser le service d'élection pour obtenir les données
-        const stats = await electionService.fetchElectionData();
+        const stats = await electionService.fetchElectionData(year, round);
         setDataSource(
           stats.dataSource === "API" ? "API officielle" : "Données simulées"
         );
@@ -141,7 +143,7 @@ export function VotesBarChart() {
     }
 
     fetchVotes();
-  }, []);
+  }, [year, round]);
 
   if (loading) {
     return (

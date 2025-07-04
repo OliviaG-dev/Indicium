@@ -5,6 +5,7 @@ import { KPICards } from "../components/Graphs/KPICards";
 import { VotesBarChart } from "../components/Graphs/VoteBarChart";
 import { RegionMap } from "../components/Graphs/RegionMap";
 import { ParticipationLineChart } from "../components/Graphs/ParticipationLineChart";
+import { FiltersPanel } from "../components/Graphs/FiltersPanel";
 
 const Dashboard: React.FC = () => {
   return (
@@ -25,6 +26,14 @@ const Dashboard: React.FC = () => {
             Indicateurs Clés
           </h2>
           <KPICards />
+        </div>
+
+        {/* Section Filtres */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold text-foreground mb-6">
+            Filtres
+          </h2>
+          <FiltersPanel />
         </div>
 
         {/* Section Graphiques */}

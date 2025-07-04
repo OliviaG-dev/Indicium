@@ -1,4 +1,4 @@
-import Papa from "papaparse";
+// import Papa from "papaparse"; // Non utilisé pour l'instant
 
 export interface ElectionData {
   Inscrits: string;
@@ -35,16 +35,19 @@ class ElectionService {
     "https://jsonplaceholder.typicode.com/comments/1",
   ];
 
-  // URLs de données publiques réelles (si disponibles)
-  private readonly REAL_DATA_URLS = [
-    // Données publiques du gouvernement français (si accessible)
-    "https://www.data.gouv.fr/fr/datasets/r/",
+  // URLs de données publiques réelles (si disponibles) - non utilisées pour l'instant
+  // private readonly REAL_DATA_URLS = [
+  //   // Données publiques du gouvernement français (si accessible)
+  //   "https://www.data.gouv.fr/fr/datasets/r/",
 
-    // API publique pour les statistiques européennes
-    "https://api.eurostat.ec.europa.eu/rest/data/v2.1/json/en/",
-  ];
+  //   // API publique pour les statistiques européennes
+  //   "https://api.eurostat.ec.europa.eu/rest/data/v2.1/json/en/",
+  // ];
 
-  async fetchElectionData(): Promise<ElectionStats> {
+  async fetchElectionData(
+    year?: string,
+    round?: "1" | "2"
+  ): Promise<ElectionStats> {
     // Essayer d'abord les APIs publiques fiables
     for (const url of this.API_URLS) {
       try {
@@ -69,7 +72,7 @@ class ElectionService {
 
         // Pour les APIs d'exemple, on simule des données réalistes
         // mais on indique qu'elles viennent d'une API
-        return this.generateRealisticDataFromAPI(data);
+        return this.generateRealisticDataFromAPI(data, year, round);
       } catch (error) {
         console.error(`❌ Erreur avec l'URL ${url}:`, error);
         continue; // Essayer l'URL suivante
@@ -80,20 +83,17 @@ class ElectionService {
     console.log(
       "⚠️ Toutes les APIs ont échoué, utilisation des données simulées"
     );
-    return this.getRealisticMockData();
+    return this.getRealisticMockData(year, round);
   }
 
   // Nouvelle méthode pour générer des données réalistes à partir d'APIs d'exemple
   private generateRealisticDataFromAPI(
-    apiData: Record<string, unknown>
+    apiData: Record<string, unknown>,
+    year?: string,
+    round?: "1" | "2"
   ): ElectionStats {
-    // Utiliser les données de l'API pour générer des variations réalistes
-    const baseStats = {
-      participation: 67.1,
-      abstention: 32.9,
-      blancsNuls: 2.8,
-      totalVotants: 35000000,
-    };
+    // Données de base selon l'année et le tour
+    const baseStats = this.getBaseStatsForYearAndRound(year, round);
 
     // Créer une variation basée sur les données reçues
     // Utiliser l'ID de l'API comme seed pour la variation
@@ -111,70 +111,66 @@ class ElectionService {
     };
   }
 
-  private parseElectionData(data: string): ElectionStats {
-    try {
-      const parsed = Papa.parse<ElectionData>(data, {
-        header: true,
-        skipEmptyLines: true,
-      });
+  // Méthode pour parser les données CSV - non utilisée pour l'instant
+  // private parseElectionData(data: string): ElectionStats {
+  //   try {
+  //     const parsed = Papa.parse<ElectionData>(data, {
+  //       header: true,
+  //       skipEmptyLines: true,
+  //     });
 
-      console.log("Parsed data:", parsed.data.slice(0, 3));
+  //     console.log("Parsed data:", parsed.data.slice(0, 3));
 
-      // Sommes globales
-      let inscrits = 0;
-      let votants = 0;
-      let blancs = 0;
-      let nuls = 0;
-      let abstentions = 0;
+  //     // Sommes globales
+  //     let inscrits = 0;
+  //     let votants = 0;
+  //     let blancs = 0;
+  //     let nuls = 0;
+  //     let abstentions = 0;
 
-      parsed.data.forEach((row: ElectionData) => {
-        inscrits += parseInt(row.Inscrits) || 0;
-        votants += parseInt(row.Votants) || 0;
-        blancs += parseInt(row.Blancs) || 0;
-        nuls += parseInt(row.Nuls) || 0;
-        abstentions += parseInt(row.Abstentions) || 0;
-      });
+  //     parsed.data.forEach((row: ElectionData) => {
+  //       inscrits += parseInt(row.Inscrits) || 0;
+  //       votants += parseInt(row.Votants) || 0;
+  //       blancs += parseInt(row.Blancs) || 0;
+  //       nuls += parseInt(row.Nuls) || 0;
+  //       abstentions += parseInt(row.Abstentions) || 0;
+  //     });
 
-      console.log("Calculated totals:", {
-        inscrits,
-        votants,
-        blancs,
-        nuls,
-        abstentions,
-      });
+  //     console.log("Calculated totals:", {
+  //       inscrits,
+  //       votants,
+  //       blancs,
+  //       nuls,
+  //       abstentions,
+  //     });
 
-      // Vérifier que nous avons des données valides
-      if (inscrits === 0 || votants === 0) {
-        throw new Error("Invalid data: zero values for inscrits or votants");
-      }
+  //     // Vérifier que nous avons des données valides
+  //     if (inscrits === 0 || votants === 0) {
+  //       throw new Error("Invalid data: zero values for inscrits or votants");
+  //     }
 
-      // Calculs
-      const participation = inscrits > 0 ? (votants / inscrits) * 100 : 0;
-      const abstention = inscrits > 0 ? (abstentions / inscrits) * 100 : 0;
-      const blancsNuls = votants > 0 ? ((blancs + nuls) / votants) * 100 : 0;
+  //     // Calculs
+  //     const participation = inscrits > 0 ? (votants / inscrits) * 100 : 0;
+  //     const abstention = inscrits > 0 ? (abstentions / inscrits) * 100 : 0;
+  //     const blancsNuls = votants > 0 ? ((blancs + nuls) / votants) * 100 : 0;
 
-      return {
-        participation,
-        abstention,
-        blancsNuls,
-        totalVotants: votants,
-        dataSource: "API" as const,
-      };
-    } catch (error) {
-      console.error("Error parsing election data:", error);
-      throw error;
-    }
-  }
+  //     return {
+  //         participation,
+  //         abstention,
+  //         blancsNuls,
+  //         totalVotants: votants,
+  //         dataSource: "API" as const,
+  //     };
+  //   } catch (error) {
+  //     console.error("Error parsing election data:", error);
+  //     throw error;
+  //   }
+  // }
 
   // Méthode pour obtenir des données simulées réalistes basées sur les vraies statistiques
-  getRealisticMockData(): ElectionStats {
-    // Données basées sur les vraies statistiques des élections françaises récentes
-    const baseStats = {
-      participation: 67.1, // Participation réelle 2022
-      abstention: 32.9, // Abstention réelle 2022
-      blancsNuls: 2.8, // Blancs et nuls réels 2022
-      totalVotants: 35000000, // Nombre de votants réel
-    };
+  getRealisticMockData(year?: string, round?: "1" | "2"): ElectionStats {
+    // Données de base selon l'année et le tour
+    const baseStats = this.getBaseStatsForYearAndRound(year, round);
 
     // Ajouter une petite variation pour simuler des données "live"
     const variation = 0.02; // 2% de variation
@@ -188,6 +184,60 @@ class ElectionService {
       totalVotants: Math.round(baseStats.totalVotants * randomFactor),
       dataSource: "Simulated" as const,
     };
+  }
+
+  // Méthode pour obtenir les statistiques de base selon l'année et le tour
+  private getBaseStatsForYearAndRound(year?: string, round?: "1" | "2") {
+    // Données historiques des élections présidentielles françaises
+    const historicalData: Record<
+      string,
+      {
+        participation: number;
+        abstention: number;
+        blancsNuls: number;
+        totalVotants: number;
+      }
+    > = {
+      "2022": {
+        participation: 71.99,
+        abstention: 28.01,
+        blancsNuls: 2.8,
+        totalVotants: 35000000,
+      },
+      "2017": {
+        participation: 77.77,
+        abstention: 22.23,
+        blancsNuls: 2.9,
+        totalVotants: 34000000,
+      },
+      "2012": {
+        participation: 79.48,
+        abstention: 20.52,
+        blancsNuls: 2.3,
+        totalVotants: 33000000,
+      },
+      "2007": {
+        participation: 83.97,
+        abstention: 16.03,
+        blancsNuls: 1.4,
+        totalVotants: 32000000,
+      },
+    };
+
+    // Utiliser les données de l'année spécifiée ou 2022 par défaut
+    const yearData = historicalData[year || "2022"] || historicalData["2022"];
+
+    // Ajuster selon le tour (le 1er tour a généralement une participation plus élevée)
+    if (round === "1") {
+      return {
+        participation: yearData.participation + 2, // +2% pour le 1er tour
+        abstention: yearData.abstention - 2,
+        blancsNuls: yearData.blancsNuls,
+        totalVotants: yearData.totalVotants,
+      };
+    }
+
+    return yearData;
   }
 
   // Méthode pour obtenir des données historiques

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -11,6 +11,23 @@ import {
 } from "recharts";
 import { TrendingUp } from "lucide-react";
 import electionService from "../../services/electionService";
+
+// Légende personnalisée
+function CustomLegend() {
+  return (
+    <div className="flex justify-center gap-6 mt-4">
+      <div className="flex items-center gap-2">
+        <span
+          className="inline-block w-3 h-3 rounded-full"
+          style={{ background: "#6366f1" }}
+        ></span>
+        <span className="text-sm text-muted-foreground font-medium">
+          Taux de participation
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export function ParticipationLineChart() {
   const [data, setData] = useState<{ year: string; participation: number }[]>(
@@ -93,7 +110,7 @@ export function ParticipationLineChart() {
         <ResponsiveContainer width="100%" height={320}>
           <LineChart
             data={data}
-            margin={{ top: 16, right: 24, left: 48, bottom: 32 }}
+            margin={{ top: 16, right: 32, left: 16, bottom: 32 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
             <XAxis
@@ -147,14 +164,7 @@ export function ParticipationLineChart() {
               }}
               cursor={{ fill: "#334155", opacity: 0.2 }}
             />
-            <Legend
-              wrapperStyle={{
-                color: "#475569",
-                fontFamily: "Inter",
-                fontWeight: 600,
-                fontSize: 14,
-              }}
-            />
+            <Legend content={<CustomLegend />} />
             <Line
               type="monotone"
               dataKey="participation"
