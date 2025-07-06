@@ -54,13 +54,11 @@ export function KPICards() {
         setLoading(true);
         setDataSource("");
 
-        console.log("KPICards: Starting to fetch election data...");
         const stats: ElectionStats = await electionService.fetchElectionData(
           year,
           round
         );
 
-        console.log("KPICards: Received stats:", stats);
         setDataSource(
           stats.dataSource === "API" ? "API officielle" : "Données simulées"
         );

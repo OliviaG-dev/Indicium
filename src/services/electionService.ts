@@ -51,8 +51,6 @@ class ElectionService {
     // Essayer d'abord les APIs publiques fiables
     for (const url of this.API_URLS) {
       try {
-        console.log("🔄 Tentative d'accès à l'API:", url);
-
         const response = await fetch(url, {
           method: "GET",
           headers: {
@@ -68,7 +66,6 @@ class ElectionService {
         }
 
         const data = await response.json();
-        console.log("✅ Données reçues de l'API:", url);
 
         // Pour les APIs d'exemple, on simule des données réalistes
         // mais on indique qu'elles viennent d'une API
@@ -80,9 +77,6 @@ class ElectionService {
     }
 
     // Si toutes les APIs ont échoué, utiliser des données simulées réalistes
-    console.log(
-      "⚠️ Toutes les APIs ont échoué, utilisation des données simulées"
-    );
     return this.getRealisticMockData(year, round);
   }
 
@@ -270,7 +264,7 @@ class ElectionService {
       // Essayer d'abord les APIs publiques
       for (const url of this.API_URLS) {
         try {
-          console.log("🔄 Tentative d'accès à l'API pour l'historique:", url);
+
 
           const response = await fetch(url, {
             method: "GET",
@@ -286,7 +280,6 @@ class ElectionService {
           }
 
           const data = await response.json();
-          console.log("✅ Données historiques reçues de l'API:", url);
 
           // Générer des données historiques réalistes basées sur l'API
           return this.generateHistoricalDataFromAPI(data);
@@ -297,7 +290,6 @@ class ElectionService {
       }
 
       // Fallback vers les données simulées
-      console.log("⚠️ Utilisation des données historiques simulées");
       return this.getMockParticipationHistory();
     } catch (error) {
       console.error(

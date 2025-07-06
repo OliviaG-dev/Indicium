@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import Button from "../components/UI/Button";
+import SmartButton from "../components/UI/SmartButton";
 
 const Home: React.FC = () => {
   return (
@@ -23,15 +22,11 @@ const Home: React.FC = () => {
           </div>
 
           <div className="pt-4 sm:pt-8 animate-slide-up">
-            <Link to="/dashboard">
-              <Button
-                variant="primary"
-                size="lg"
-                className="px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl transform hover:scale-105 shadow-xl hover:shadow-2xl w-full sm:w-auto"
-              >
-                Commencer
-              </Button>
-            </Link>
+            <SmartButton
+              variant="primary"
+              size="lg"
+              className="w-full sm:w-auto"
+            />
           </div>
         </div>
       </div>

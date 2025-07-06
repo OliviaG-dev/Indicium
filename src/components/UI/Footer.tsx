@@ -33,11 +33,8 @@ const Footer: React.FC = () => {
 
         {/* Version Mobile/Tablette */}
         <div className="lg:hidden space-y-4">
-          {/* Titre et description */}
+          {/* Description */}
           <div className="flex flex-col items-center space-y-2">
-            <span className="text-lg font-bold text-gradient-primary">
-              Indicium
-            </span>
             <p className="text-muted-foreground text-xs text-center max-w-xs">
               Plateforme de visualisation des données électorales
             </p>

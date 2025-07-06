@@ -42,15 +42,8 @@ export function ParticipationLineChart() {
         setLoading(true);
         setDataSource("");
 
-        console.log(
-          "ParticipationLineChart: Starting to fetch participation history..."
-        );
         const historyData = await electionService.fetchParticipationHistory();
 
-        console.log(
-          "ParticipationLineChart: Received history data:",
-          historyData
-        );
         setDataSource("API officielle");
         setData(historyData);
       } catch (err) {
