@@ -191,13 +191,13 @@ export function RegionMap() {
 
       {/* Messages de statut */}
       {dataSource.includes("simulées") && (
-        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 text-sm text-yellow-800 dark:text-yellow-200 mb-4">
+        <div className="bg-yellow-50/30 dark:bg-yellow-900/10 border border-yellow-200/50 dark:border-yellow-800/30 rounded-lg p-2 text-xs text-yellow-700/70 dark:text-yellow-300/70 opacity-80 mb-4">
           ⚠️ {dataSource} - Les APIs officielles sont temporairement
           indisponibles
         </div>
       )}
       {dataSource.includes("API") && (
-        <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3 text-sm text-green-800 dark:text-green-200 mb-4">
+        <div className="bg-green-50/30 dark:bg-green-900/10 border border-green-200/50 dark:border-green-800/30 rounded-lg p-2 text-xs text-green-700/70 dark:text-green-300/70 opacity-80 mb-4">
           ✅ {dataSource} - Données officielles en temps réel
         </div>
       )}
