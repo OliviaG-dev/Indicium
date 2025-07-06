@@ -66,7 +66,7 @@ class PDFExportService {
       }, // blue-500
     ];
 
-    let currentY = yPosition + 15;
+    const currentY = yPosition + 15;
 
     kpiData.forEach((kpi, index) => {
       const x = 20 + (index % 2) * 85;
@@ -88,9 +88,9 @@ class PDFExportService {
 
       doc.setFontSize(12);
       doc.setTextColor(kpi.color[0], kpi.color[1], kpi.color[2]);
-      doc.setFont(undefined, "bold");
+      doc.setFont("helvetica", "bold");
       doc.text(kpi.value, x + 5, y + 2);
-      doc.setFont(undefined, "normal");
+      doc.setFont("helvetica", "normal");
     });
 
     return currentY + 60;
@@ -141,10 +141,10 @@ class PDFExportService {
     this.addHeader(doc, data.title, data.date);
 
     // Section KPIs
-    let currentY = this.addKPISection(doc, data.stats, 80);
+    const currentY = this.addKPISection(doc, data.stats, 80);
 
     // Section filtres
-    currentY = this.addFiltersSection(doc, data.filters, currentY + 20);
+    this.addFiltersSection(doc, data.filters, currentY + 20);
 
     // Pied de page
     this.addFooter(doc);
@@ -169,8 +169,8 @@ class PDFExportService {
       }),
       stats,
       filters: {
-        year: year.toString(),
-        round: round.toString(),
+        year: year?.toString() || "2022",
+        round: round?.toString() || "1",
       },
     };
 
