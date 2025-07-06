@@ -1,69 +1,76 @@
-# React + TypeScript + Vite
+# 📊 Indicium - Tableau de Bord Électoral
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Application React moderne pour l'analyse et la visualisation des données électorales françaises.
 
-Currently, two official plugins are available:
+## 🚀 Fonctionnalités
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Dashboard Interactif** : Visualisation des données électorales en temps réel
+- **KPIs Clés** : Taux de participation, abstention, blancs/nuls
+- **Graphiques** : Cartes, graphiques en barres, graphiques linéaires
+- **Filtres** : Par année et tour d'élection
+- **Export PDF** : Génération de rapports automatiques
+- **Design Responsive** : Interface adaptée mobile/desktop
+- **Mode Sombre/Clair** : Thème personnalisable
 
-## Expanding the ESLint configuration
+## 🛠 Technologies
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 19** + **TypeScript**
+- **Vite** - Build tool rapide
+- **Tailwind CSS** - Styling moderne
+- **Zustand** - Gestion d'état
+- **Recharts** - Graphiques interactifs
+- **React Simple Maps** - Cartographie
+- **jsPDF** - Génération de PDF
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📁 Structure
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/
+│   ├── UI/           # Composants d'interface
+│   └── Graphs/       # Graphiques et visualisations
+├── pages/            # Pages de l'application
+├── services/         # Services (données, export PDF)
+├── store/           # Gestion d'état Zustand
+└── assets/          # Ressources statiques
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🚀 Installation
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Installer les dépendances
+pnpm install
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Lancer en développement
+pnpm dev
+
+# Build de production
+pnpm build
 ```
+
+## 📊 Utilisation
+
+1. **Accéder au Dashboard** : `/dashboard`
+2. **Filtrer les données** : Sélectionner année et tour
+3. **Exporter un rapport** : Cliquer sur "Exporter PDF"
+4. **Changer de thème** : Bouton dans le header
+
+## 🎨 Design System
+
+- **Couleurs** : Palette cohérente avec support mode sombre
+- **Typographie** : Hiérarchie claire et lisible
+- **Animations** : Transitions fluides et micro-interactions
+- **Responsive** : Adaptation mobile-first
+
+## 📄 Export PDF
+
+Le système d'export génère des rapports automatiques incluant :
+
+- En-tête avec logo et date
+- KPIs formatés et colorés
+- Filtres appliqués
+- Pied de page professionnel
+
+---
+
+**Développé avec ❤️ pour l'analyse électorale française**

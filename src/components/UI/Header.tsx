@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 
 const Header: React.FC = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Gestion du scroll pour l'effet de transparence
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="bg-card border-b border-border shadow-sm">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled
+          ? "bg-card/95 backdrop-blur-md border-b border-border shadow-lg"
+          : "bg-card/80 backdrop-blur-sm border-b border-border/50"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-16 lg:h-20">
+          {/* Logo et titre */}
           <div className="flex items-center space-x-3">
             <div className="relative group">
               {/* Aura externe animée */}
@@ -20,7 +38,7 @@ const Header: React.FC = () => {
                 <img
                   src="/logo.png"
                   alt="Indicium Logo"
-                  className="h-10 w-10 object-contain filter brightness-110 contrast-110 p-1.5 rounded-lg"
+                  className="h-8 w-8 sm:h-10 sm:w-10 object-contain filter brightness-110 contrast-110 p-1.5 rounded-lg"
                 />
 
                 {/* Reflet subtil */}
@@ -35,11 +53,13 @@ const Header: React.FC = () => {
               ></div>
             </div>
 
-            <span className="text-2xl font-bold text-gradient-primary">
+            <span className="text-xl sm:text-2xl font-bold text-gradient-primary">
               Indicium
             </span>
           </div>
-          <div className="flex items-center space-x-8">
+
+          {/* Navigation desktop */}
+          <div className="hidden lg:flex items-center space-x-8">
             <nav className="flex space-x-8">
               <Link
                 to="/"
@@ -54,6 +74,11 @@ const Header: React.FC = () => {
                 Tableau de bord
               </Link>
             </nav>
+            <ThemeToggle />
+          </div>
+
+          {/* ThemeToggle pour mobile/tablette */}
+          <div className="lg:hidden">
             <ThemeToggle />
           </div>
         </div>
