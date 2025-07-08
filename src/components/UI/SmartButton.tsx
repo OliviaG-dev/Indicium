@@ -2,14 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import Button from "./Button";
 import { pdfExportService } from "../../services/pdfExportService";
-import type { ElectionStats } from "../../services/electionService";
-
-interface SmartButtonProps {
-  stats?: ElectionStats;
-  variant?: "primary" | "secondary" | "outline" | "ghost";
-  size?: "sm" | "md" | "lg";
-  className?: string;
-}
+import type { SmartButtonProps } from "../../types";
 
 const SmartButton: React.FC<SmartButtonProps> = ({
   stats,

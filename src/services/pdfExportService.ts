@@ -1,16 +1,6 @@
 import jsPDF from "jspdf";
-import type { ElectionStats } from "./electionService";
+import type { ElectionStats, PDFReportData } from "../types";
 import { useFiltersStore } from "../store/filterStore";
-
-interface PDFReportData {
-  title: string;
-  date: string;
-  stats: ElectionStats;
-  filters: {
-    year: string;
-    round: string;
-  };
-}
 
 class PDFExportService {
   private addHeader(doc: jsPDF, title: string, date: string): void {

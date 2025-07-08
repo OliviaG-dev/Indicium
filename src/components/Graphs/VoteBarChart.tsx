@@ -12,12 +12,7 @@ import {
 import { BarChart3 } from "lucide-react";
 import electionService from "../../services/electionService";
 import { useFiltersStore } from "../../store/filterStore";
-
-type CandidateResult = {
-  name: string;
-  votes: number;
-  percent: number;
-};
+import type { CandidateResult } from "../../types";
 
 // Légende personnalisée
 function CustomLegend() {

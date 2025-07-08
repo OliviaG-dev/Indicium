@@ -1,11 +1,5 @@
 import { create } from "zustand";
-
-type FiltersState = {
-  year: string;
-  round: "1" | "2";
-  setYear: (y: string) => void;
-  setRound: (r: FiltersState["round"]) => void;
-};
+import type { FiltersState } from "../types";
 
 export const useFiltersStore = create<FiltersState>((set) => ({
   year: "2022",

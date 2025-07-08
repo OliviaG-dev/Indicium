@@ -6,7 +6,7 @@ import { ParticipationLineChart } from "../components/Graphs/ParticipationLineCh
 import { FiltersPanel } from "../components/Graphs/FiltersPanel";
 import SmartButton from "../components/UI/SmartButton";
 import electionService from "../services/electionService";
-import type { ElectionStats } from "../services/electionService";
+import type { ElectionStats } from "../types";
 import { useFiltersStore } from "../store/filterStore";
 
 const Dashboard: React.FC = () => {

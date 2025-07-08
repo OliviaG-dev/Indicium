@@ -3,31 +3,10 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { MapPin } from "lucide-react";
 import electionService from "../../services/electionService";
 import { useFiltersStore } from "../../store/filterStore";
+import type { RegionData, Geo, GeographiesProps } from "../../types";
 
 const geoUrl =
   "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/regions-version-simplifiee.geojson";
-
-type RegionData = {
-  nom: string;
-  macron: number;
-  lepen: number;
-  gagnant: string;
-  participation: number;
-};
-
-interface GeoProperties {
-  nom: string;
-  [key: string]: unknown;
-}
-
-interface Geo {
-  rsmKey: string;
-  properties: GeoProperties;
-}
-
-interface GeographiesProps {
-  geographies: Geo[];
-}
 
 export function RegionMap() {
   const [regions, setRegions] = useState<Record<string, RegionData>>({});

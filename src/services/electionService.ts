@@ -1,26 +1,5 @@
 // import Papa from "papaparse"; // Non utilisé pour l'instant
-
-export interface ElectionData {
-  Inscrits: string;
-  Votants: string;
-  Blancs: string;
-  Nuls: string;
-  Abstentions: string;
-}
-
-export interface KPI {
-  title: string;
-  value: string;
-  icon?: React.ReactElement;
-}
-
-export interface ElectionStats {
-  participation: number;
-  abstention: number;
-  blancsNuls: number;
-  totalVotants: number;
-  dataSource: "API" | "Simulated";
-}
+import type { ElectionStats } from "../types";
 
 class ElectionService {
   // APIs publiques plus fiables et moins restrictives
@@ -264,8 +243,6 @@ class ElectionService {
       // Essayer d'abord les APIs publiques
       for (const url of this.API_URLS) {
         try {
-
-
           const response = await fetch(url, {
             method: "GET",
             headers: {

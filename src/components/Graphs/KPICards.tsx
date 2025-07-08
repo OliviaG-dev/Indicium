@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Vote, Users, XCircle, FileText } from "lucide-react";
-import electionService, {
-  type KPI,
-  type ElectionStats,
-} from "../../services/electionService";
+import electionService from "../../services/electionService";
 import { useFiltersStore } from "../../store/filterStore";
-
-interface CardProps {
-  children: React.ReactNode;
-  className?: string;
-  title?: string;
-  description?: string;
-}
+import type { KPI, ElectionStats, CardProps } from "../../types";
 
 const Card: React.FC<CardProps> = ({
   children,
